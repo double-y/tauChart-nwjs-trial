@@ -1,0 +1,22 @@
+{
+  "name": "tauChartDemo",
+  "description": "",
+  "main": "index.html",
+  "authors": [
+    "Yosuke Yasuda <double.y.919.quick@gmail.com>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "tauCharts": "taucharts#~0.6.3"
+  }
+}

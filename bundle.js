@@ -56,7 +56,8 @@
 	        return React.createElement(
 	            'div',
 	            null,
-	            React.createElement(SampleChart, null)
+	            React.createElement(SampleChart, null),
+	            React.createElement(FileInput, null)
 	        );
 	    }
 	});
@@ -535,9 +536,33 @@
 	    }
 	});
 	
+	var FileInput = React.createClass({
+	    displayName: 'FileInput',
+	
+	    addInputListener: function (dom) {
+	        console.log(DataFileManager);
+	        dom.addEventListener("change", function (evt) {
+	            console.log(DataFileManager);
+	            var dataFileManager = new DataFileManager(this.value);
+	            console.log(DataFileManager);
+	            dataFileManager.dbpParser.on('header', function (h) {
+	                console.log(h);
+	            });
+	
+	            dataFileManager.dbpParser.parse();
+	        }, false);
+	    },
+	    render: function () {
+	        var self = this;
+	        return React.createElement('input', { ref: function (dom) {
+	                self.addInputListener(dom);
+	            }, type: 'file' });
+	    }
+	});
+	
 	ReactDom.render(React.createElement(App, null), document.getElementById('app'));
 	
-	module.exports.App = App;
+	module.exports = App;
 
 /***/ },
 /* 1 */

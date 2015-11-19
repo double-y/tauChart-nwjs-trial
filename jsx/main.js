@@ -8,6 +8,7 @@ var App = React.createClass({
     return (
       <div>
       <SampleChart/>
+      <FileInput/>
       </div>
     )
   }
@@ -489,6 +490,26 @@ var SampleChart = React.createClass({
   }
 });
 
+var FileInput = React.createClass({
+  addInputListener: function(dom){
+      console.log(DataFileManager);
+    dom.addEventListener("change", function(evt) {
+        console.log(DataFileManager);
+        var dataFileManager = new DataFileManager(this.value);
+        console.log(DataFileManager);
+        dataFileManager.dbpParser.on('header', function(h){
+           console.log(h);
+        });
+
+        dataFileManager.dbpParser.parse();
+    }, false);
+  },
+  render: function(){
+    var self = this;
+    return (<input ref={function(dom){self.addInputListener(dom);}} type='file'/>);
+  }
+});
+
 ReactDom.render(<App/>, document.getElementById('app'));
 
-module.exports.App = App;
+module.exports= App;

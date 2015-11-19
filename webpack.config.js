@@ -9,7 +9,7 @@ module.exports = {
     },
     resolve: {
       modulesDirectories: ["node_modules", "bower_components"],
-        root: [path.join(__dirname, "bower_components")]
+        root: [path.join(__dirname, "bower_components")],
     },
     module: {
         loaders: [
@@ -32,6 +32,9 @@ module.exports = {
     stats: {
         // Nice colored output
         colors: true
+    },
+    node: {
+      fs: "empty"
     },
     // Create Sourcemaps for the bundle
     devtool: 'source-map',

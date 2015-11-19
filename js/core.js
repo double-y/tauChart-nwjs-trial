@@ -1,13 +1,13 @@
-var DataFileManager, Parser;
+var DBFDataFileParser;
 
-Parser = require('node-dbf');
-
-DataFileManager = (function() {
-  function DataFileManager(path_string) {
+DBFDataFileParser = (function() {
+  function DBFDataFileParser(path_string) {
+    var Parser;
     this.path_string = path_string;
+    Parser = require('node-dbf');
     this.dbpParser = new Parser(this.path_string);
   }
 
-  return DataFileManager;
+  return DBFDataFileParser;
 
 })();

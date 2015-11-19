@@ -8,10 +8,39 @@ var App = React.createClass({
     return (
       <div>
       <SampleChart/>
-      <FileInput/>
+      <DataContainer/>
       </div>
     )
   }
+});
+
+var DataContainer = React.createClass({
+    getInitialState: function(){
+        return {
+            chartType: 'scatterplot',
+            xLabel: '',
+            yLabel: '',
+            data: []
+        }
+    },
+    setData: function(data, xLabel, yLabel){
+        this.setState({data: data});
+        this.setState({xLabel: xLabel});
+        this.setState({yLabel: yLabel});
+    },
+    render: function(){
+        if(this.state.data.length > 0){
+            return (
+                <SampleChart data={this.state.data} dataType={this.state.chartType} xLabel={this.state.xLabel} yLabel={this.state.yLabel}/>
+            )
+        }else{
+            return (
+                <div>
+                    <p>please input data</p>
+                    <FileInput setData={this.setData}/>
+                </div>)
+        }
+    }
 });
 
 var SampleChart = React.createClass({
@@ -491,18 +520,34 @@ var SampleChart = React.createClass({
 });
 
 var FileInput = React.createClass({
-  addInputListener: function(dom){
-      console.log(DataFileManager);
-    dom.addEventListener("change", function(evt) {
-        console.log(DataFileManager);
-        var dataFileManager = new DataFileManager(this.value);
-        console.log(DataFileManager);
-        dataFileManager.dbpParser.on('header', function(h){
-           console.log(h);
-        });
+    changeListener: function(event){
 
-        dataFileManager.dbpParser.parse();
-    }, false);
+    },
+  addInputListener: function(dom){
+      var _this = this;
+      function changeListener(evt) {
+          evt.preventDefault();
+
+          var dataFileManager = new DBFDataFileParser(this.value);
+
+          var header = [];
+          var records = [];
+
+          dataFileManager.dbpParser.on('header', function(head){
+              header.push(head);
+          });
+
+          dataFileManager.dbpParser.on('record', function(record){
+              records.push(record);
+          });
+
+          dataFileManager.dbpParser.on('end', function(){
+              _this.props.setData(records, header[0], header[1]);
+          });
+
+          dataFileManager.dbpParser.parse();
+      }
+      if(dom!=null) dom.addEventListener("change", changeListener, false);
   },
   render: function(){
     var self = this;
